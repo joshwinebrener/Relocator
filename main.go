@@ -3,33 +3,37 @@ package main
 import (
 	"fmt"
 
-	"os"
-
 	"github.com/BurntSushi/toml"
 )
 
-type UserInput struct {
-	weights struct {
-		median_housing_price float32 `toml:"weights.median_housing_price"`
+type (
+	userInput struct {
+		// weights     configParameters
+		// min_filters configParameters
+		// max_filters configParameters
+		median_housing_price int //`toml:"median_housing_price"`
 	}
-	min_filters struct {
-		median_housing_price int `toml:"min_filters.median_housing_price"`
+	// configParameters struct {
+	// 	median_housing_price int `toml:median_housing_price`
+	// }
+	Config struct {
+		Weights    ConfigParameters `toml:"weights"`
+		MinFilters ConfigParameters `toml:"min_filters"`
+		MaxFilters ConfigParameters `toml:"max_filters"`
 	}
-	max_filters struct {
-		median_housing_price int `toml:"max_filters.median_housing_price"`
+	ConfigParameters struct {
+		MedianHousingPrice           int `toml:"median_housing_price"`
+		ViolentCrimeIncidentsPerYear int `toml:"violent_crime_incidents_per_year"`
 	}
-}
+)
 
 func main() {
-	tomlbytes, err := os.ReadFile("input.toml")
+	// var input userInput
+	var conf Config
+	// _, err := toml.DecodeFile("input.toml", &input)
+	_, err := toml.DecodeFile("input.toml", &conf)
 	if err != nil {
 		panic(err)
 	}
-	tomlstr := string(tomlbytes)
-	var input UserInput
-	_, err2 := toml.Decode(tomlstr, &input)
-	if err2 != nil {
-		panic(err)
-	}
-	fmt.Printf("%+v\n", input)
+	fmt.Printf("%+v\n", conf)
 }
