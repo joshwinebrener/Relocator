@@ -1,0 +1,8 @@
+[weights]
+median_housing_price = 0.9
+
+[min_filters]
+median_housing_price = 20000
+
+[max_filters]
+median_housing_price = 100000
