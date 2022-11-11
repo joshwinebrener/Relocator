@@ -7,15 +7,6 @@ import (
 )
 
 type (
-	userInput struct {
-		// weights     configParameters
-		// min_filters configParameters
-		// max_filters configParameters
-		median_housing_price int //`toml:"median_housing_price"`
-	}
-	// configParameters struct {
-	// 	median_housing_price int `toml:median_housing_price`
-	// }
 	Config struct {
 		Weights    ConfigParameters `toml:"weights"`
 		MinFilters ConfigParameters `toml:"min_filters"`
@@ -28,9 +19,7 @@ type (
 )
 
 func main() {
-	// var input userInput
 	var conf Config
-	// _, err := toml.DecodeFile("input.toml", &input)
 	_, err := toml.DecodeFile("input.toml", &conf)
 	if err != nil {
 		panic(err)
