@@ -12,8 +12,8 @@ import (
 
 // Do we have a decided naming convention?
 type countyData_t struct {
-	housingPrices float64
-	violentCrime  int
+	housingPrices map[string]float64
+	violentCrime  map[string]int
 }
 
 func main() {
@@ -25,20 +25,20 @@ func main() {
 	}
 
 	// Read housing pricing CSV
-	file, err := os.Open("zillow_home_prices.csv")
+	housePricingfile, err := os.Open("zillow_home_prices.csv")
 	if err != nil {
 		panic(err)
 	}
-	defer file.Close()
+	defer housePricingfile.Close()
 
-	lines, err := csv.NewReader(file).ReadAll()
+	housePricinglines, err := csv.NewReader(housePricingfile).ReadAll()
 	if err != nil {
 		panic(err)
 	}
 
 	housingPrices := make(map[string]float64)
+	for lineNo, values := range housePricinglines {
 
-	for lineNo, values := range lines {
 		if lineNo == 0 {
 			// Skip header
 			continue
@@ -63,40 +63,49 @@ func main() {
 			}
 			break
 		}
-
 		housingPrices[county] = price
 	}
+	countyData := countyData_t{housingPrices: housingPrices}
 
-	// Basic assertions.  TODO: remove before submission.
-	if housingPrices["san augustine"] != 180910.0 {
-		panic("housingPrices[\"san augustine\"] != 180910.0")
+	// Read crime data CSV
+	violentCrimefile, err := os.Open("cjis_crime_data.csv")
+	if err != nil {
+		panic(err)
 	}
-	if housingPrices["teton"] != 346561.0 {
-		panic("housingPrices[\"teton\"] != 346561.0")
-	}
-	if housingPrices["rock"] != 202578.0 {
-		panic("housingPrices[\"rock\"] != 202578.0")
-	}
-	fmt.Println(len(lines))
-	fmt.Println(housingPrices)
+	defer violentCrimefile.Close()
 
-	// Read crime data pricing CSV
-	crimeDataFile, err := os.ReadFile("cjis_crime_data.csv")
+	violentCrimeLines, err := csv.NewReader(violentCrimefile).ReadAll()
 	if err != nil {
 		panic(err)
 	}
 
-	crimeDataCsv := string(crimeDataFile)
-	crimeDataLines := strings.Split(crimeDataCsv, "\n")
-	county := make([]string, len(crimeDataLines)-1)    //Remove header
-	violentCrime := make([]int, len(crimeDataLines)-1) //Remove header
-	for i, line := range crimeDataLines {
-		if i != 0 {
-			if strings.TrimSpace(line) != "" {
-				values := strings.Split(line, ",")
-				county[i-1] = values[1]
-				violentCrime[i-1], err = strconv.Atoi(values[2])
-			}
+	violentCrime := make(map[string]int)
+	for lineNo, values := range violentCrimeLines {
+
+		if lineNo == 0 {
+			// Skip header
+			continue
 		}
+		county := values[1]
+
+		// Normalize county name
+		county = strings.TrimSpace(county)
+		county = strings.ToLower(county)
+
+		var violentCrimeElement int
+		violentCrimeElement, err = strconv.Atoi(values[2])
+
+		violentCrime[county] = violentCrimeElement
 	}
+
+	countyData.violentCrime = violentCrime
+
+	fmt.Println(countyData.violentCrime["weston"])
+	fmt.Println(countyData.housingPrices["weston"])
+
+	// Basic assertions.  TODO: remove before submission.
+	if (countyData.housingPrices["weston"] != 2328183) || (countyData.violentCrime["weston"] != 2.0) {
+		panic("Housing price or violent crime sanity check failed")
+	}
+
 }
