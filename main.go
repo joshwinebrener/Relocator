@@ -10,6 +10,12 @@ import (
 	"github.com/BurntSushi/toml"
 )
 
+// Do we have a decided naming convention?
+type countyData_t struct {
+	housingPrices float64
+	violentCrime  int
+}
+
 func main() {
 	// Read config file
 	var conf Config
@@ -72,7 +78,6 @@ func main() {
 		panic("housingPrices[\"rock\"] != 202578.0")
 	}
 	fmt.Println(len(lines))
-
 	fmt.Println(housingPrices)
 
 	// Read crime data pricing CSV
