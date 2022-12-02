@@ -71,6 +71,27 @@ func main() {
 	if housingPrices["rock"] != 202578.0 {
 		panic("housingPrices[\"rock\"] != 202578.0")
 	}
+	fmt.Println(len(lines))
 
 	fmt.Println(housingPrices)
+
+	// Read crime data pricing CSV
+	crimeDataFile, err := os.ReadFile("cjis_crime_data.csv")
+	if err != nil {
+		panic(err)
+	}
+
+	crimeDataCsv := string(crimeDataFile)
+	crimeDataLines := strings.Split(crimeDataCsv, "\n")
+	county := make([]string, len(crimeDataLines)-1)    //Remove header
+	violentCrime := make([]int, len(crimeDataLines)-1) //Remove header
+	for i, line := range crimeDataLines {
+		if i != 0 {
+			if strings.TrimSpace(line) != "" {
+				values := strings.Split(line, ",")
+				county[i-1] = values[1]
+				violentCrime[i-1], err = strconv.Atoi(values[2])
+			}
+		}
+	}
 }
