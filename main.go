@@ -121,8 +121,9 @@ func main() {
 	}
 	os.WriteFile("output.csv", []byte(outputBuffer), 0644)
 
-	unsorted := []int{10, 6, 2, 1, 5, 8, 3, 4, 7, 9}
-	sorted := mergeSort(unsorted)
+	ranked := rank(countyData, conf)
+	// unsorted := []int{10, 6, 2, 1, 5, 8, 3, 4, 7, 9}
+	sorted := mergeSort(ranked)
 
 	fmt.Println(sorted)
 }

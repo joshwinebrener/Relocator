@@ -5,7 +5,7 @@ import (
 )
 
 // Parallel Merge Sort function Implemented using the Go concurrency model
-func mergeSort(items []int) []int {
+func mergeSort(items []ranked) []ranked {
 	if len(items) < 2 {
 		return items
 	}
@@ -32,12 +32,12 @@ func mergeSort(items []int) []int {
 	return outdata
 }
 
-func merge(a []int, b []int) []int {
-	final := []int{}
+func merge(a []ranked, b []ranked) []ranked {
+	final := []ranked{}
 	i := 0
 	j := 0
 	for i < len(a) && j < len(b) {
-		if a[i] < b[j] {
+		if a[i].rank < b[j].rank {
 			final = append(final, a[i])
 			i++
 		} else {

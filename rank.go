@@ -1,9 +1,14 @@
 package main
 
-func Rank(countyData map[string]countyData_t, config Config) map[string]float64 {
-	rankings := make(map[string]float64)
+type ranked struct {
+	county string
+	rank   float64
+}
 
-	c := make(chan map[string]float64)
+func rank(countyData map[string]countyData_t, config Config) []ranked {
+	rankings := make([]ranked, len(countyData))
+
+	c := make(chan []ranked)
 
 	keys := make([]string, len(countyData))
 	i := 0
@@ -22,19 +27,25 @@ func Rank(countyData map[string]countyData_t, config Config) map[string]float64 
 		}
 		var keySlice = keys[i : i+n]
 		go func() {
-			rankingsSlice := make(map[string]float64)
+			rankingsSlice := make([]ranked, n)
+			j := 0
 			for _, key := range keySlice {
-				rankingsSlice[key] = countyData[key].housingPrice*float64(config.Weights.MedianHousingPrice)/100 +
-					float64(countyData[key].violentCrime)*float64(config.Weights.ViolentCrimeIncidentsPerYear)/100
+				rankingsSlice[j] = ranked{
+					key,
+					countyData[key].housingPrice*float64(config.Weights.MedianHousingPrice)/100 +
+						float64(countyData[key].violentCrime)*float64(config.Weights.ViolentCrimeIncidentsPerYear)/100,
+				}
 			}
 			c <- rankingsSlice
 		}()
 	}
 
-	for len(rankings) < len(countyData) {
+	i = 0
+	for i < len(rankings) {
 		rankingsSlice := <-c
-		for k, v := range rankingsSlice {
-			rankings[k] = v
+		for _, v := range rankingsSlice {
+			rankings[i] = v
+			i++
 		}
 	}
 
