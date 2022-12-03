@@ -35,6 +35,7 @@ func rank(countyData map[string]countyData_t, config Config) []ranked {
 					countyData[key].housingPrice*float64(config.Weights.MedianHousingPrice)/100 +
 						float64(countyData[key].violentCrime)*float64(config.Weights.ViolentCrimeIncidentsPerYear)/100,
 				}
+				j++
 			}
 			c <- rankingsSlice
 		}()
