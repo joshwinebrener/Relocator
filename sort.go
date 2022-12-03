@@ -28,8 +28,7 @@ func mergeSort(items []ranked) []ranked {
 
 	wg.Wait()
 
-	outdata := merge(first, second)
-	return outdata
+	return merge(first, second)
 }
 
 func merge(a []ranked, b []ranked) []ranked {
