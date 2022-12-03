@@ -109,9 +109,7 @@ func main() {
 	}
 
 	// Basic assertions.  TODO: remove before submission.
-	if (2328182.9 < countyData["weston"].housingPrice &&
-		countyData["weston"].housingPrice < 2328183.1) ||
-		(countyData["weston"].violentCrime != 2) {
+	if (countyData["weston"].housingPrice != 238183) || (countyData["weston"].violentCrime != 2.0) {
 		panic(fmt.Sprintf("Housing price or violent crime sanity check failed: %f, %d",
 			countyData["weston"].housingPrice,
 			countyData["weston"].violentCrime))
@@ -122,4 +120,9 @@ func main() {
 		outputBuffer += fmt.Sprintf("%s,%.1f,%d\n", county, data.housingPrice, data.violentCrime)
 	}
 	os.WriteFile("output.csv", []byte(outputBuffer), 0644)
+
+	unsorted := []int{10, 6, 2, 1, 5, 8, 3, 4, 7, 9}
+	sorted := mergeSort(unsorted)
+
+	fmt.Println(sorted)
 }
