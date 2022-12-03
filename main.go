@@ -6,6 +6,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 	"unicode"
 
 	"github.com/BurntSushi/toml"
@@ -18,6 +19,7 @@ type countyData_t struct {
 }
 
 func main() {
+	start := time.Now().UnixMicro()
 	// // A handy map of US state codes to full names
 	var stateCodeNameMap = map[string]string{
 		"AL": "alabama",
@@ -307,8 +309,10 @@ func main() {
 		}
 	}
 
+	// ranked := rankSerial(countyData, conf)
 	ranked := rank(countyData, conf)
-	sorted := mergeSort(ranked)
+	sorted := mergeSortSerial(ranked)
+	// sorted := mergeSort(ranked)
 	// fmt.Println(sorted)
 
 	outputBuffer = ""
@@ -316,6 +320,11 @@ func main() {
 		outputBuffer += fmt.Sprintf("\"%s\",%f\n", ranked.county, ranked.rank)
 	}
 	os.WriteFile("output.csv", []byte(outputBuffer), 0644)
+
+	fmt.Printf("N=%d,", len(sorted))
+
+	executionTime := float32(time.Now().UnixMicro()-start) / 1000
+	fmt.Printf("T=%.3f\n", executionTime)
 }
 
 func Capitalize(s string) string {

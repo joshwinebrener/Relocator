@@ -8,7 +8,7 @@ type (
 	}
 	ConfigParameters struct {
 		MedianHousingPrice                   float64 `toml:"median_housing_price"`
-		YearlyViolentCrimeIncidentsPerCapita float64 `toml:"violent_crime_incidents_per_year"`
+		YearlyViolentCrimeIncidentsPerCapita float64 `toml:"yearly_violent_crime_incidents_per_capita"`
 		Population                           float64 `toml:"population"`
 	}
 )

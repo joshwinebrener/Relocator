@@ -54,7 +54,7 @@ func rank(countyData map[string]countyData_t, config Config) []ranked {
 	return rankings
 }
 
-func rank_serial(countyData map[string]countyData_t, config Config) []ranked {
+func rankSerial(countyData map[string]countyData_t, config Config) []ranked {
 	rankings := make([]ranked, len(countyData))
 
 	keys := make([]string, len(countyData))

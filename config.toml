@@ -1,9 +1,56 @@
 [weights]
 median_housing_price = 0.4
-violent_crime_incidents_per_year = 0.8
+yearly_violent_crime_incidents_per_capita = 0.8
 population = -0.3
 
-[min_filters]
+# N=10
+# [min_filters]
+# median_housing_price = 100_000
+# yearly_violent_crime_incidents_per_capita = 0.001
+# population = 10_000
+# [max_filters]
+# median_housing_price = 104_300
+# yearly_violent_crime_incidents_per_capita = 0.1
+# population = 200_000
 
+# N=50
+# [min_filters]
+# median_housing_price = 100_000
+# yearly_violent_crime_incidents_per_capita = 0.001
+# population = 10_000
+# [max_filters]
+# median_housing_price = 119_500
+# yearly_violent_crime_incidents_per_capita = 0.1
+# population = 200_000
 
-[max_filters]
+# N=100
+# [min_filters]
+# median_housing_price = 100_00
+# yearly_violent_crime_incidents_per_capita = 0.001
+# population = 10_000
+# [max_filters]
+# median_housing_price = 122_500
+# yearly_violent_crime_incidents_per_capita = 0.1
+# population = 200_000
+
+# N=500
+# [min_filters]
+# median_housing_price = 100_000
+# yearly_violent_crime_incidents_per_capita = 0.00001
+# population = 10_000
+# [max_filters]
+# median_housing_price = 158_900
+# yearly_violent_crime_incidents_per_capita = 0.1
+# population = 200_000
+
+# N=1000
+# [min_filters]
+# median_housing_price = 80_000
+# yearly_violent_crime_incidents_per_capita = 0.00001
+# population = 10_000
+# [max_filters]
+# median_housing_price = 206_200
+# yearly_violent_crime_incidents_per_capita = 0.1
+# population = 200_000
+
+# N=2115 by default
