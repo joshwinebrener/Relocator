@@ -7,7 +7,8 @@ type (
 		MaxFilters ConfigParameters `toml:"max_filters"`
 	}
 	ConfigParameters struct {
-		MedianHousingPrice           float64 `toml:"median_housing_price"`
-		ViolentCrimeIncidentsPerYear int     `toml:"violent_crime_incidents_per_year"`
+		MedianHousingPrice                   float64 `toml:"median_housing_price"`
+		YearlyViolentCrimeIncidentsPerCapita float64 `toml:"violent_crime_incidents_per_year"`
+		Population                           float64 `toml:"population"`
 	}
 )

@@ -32,8 +32,9 @@ func rank(countyData map[string]countyData_t, config Config) []ranked {
 			for _, key := range keySlice {
 				rankingsSlice[j] = ranked{
 					key,
-					countyData[key].housingPrice*float64(config.Weights.MedianHousingPrice)/100 +
-						float64(countyData[key].violentCrime)*float64(config.Weights.ViolentCrimeIncidentsPerYear)/100,
+					countyData[key].housingPrice*float64(config.Weights.MedianHousingPrice) +
+						float64(countyData[key].violentCrime)*float64(config.Weights.YearlyViolentCrimeIncidentsPerCapita) +
+						countyData[key].population*config.Weights.Population,
 				}
 				j++
 			}

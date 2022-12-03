@@ -1,6 +1,7 @@
 [weights]
-median_housing_price = 80_000
-violent_crime_incidents_per_year = 2
+median_housing_price = 0.4
+violent_crime_incidents_per_year = 0.8
+population = -0.3
 
 [min_filters]
 
