@@ -262,7 +262,7 @@ func main() {
 
 	outputBuffer = ""
 	for _, ranked := range sorted {
-		outputBuffer += fmt.Sprintf("%s,%f\n", ranked.county, ranked.rank)
+		outputBuffer += fmt.Sprintf("\"%s\",%f\n", ranked.county, ranked.rank)
 	}
 	os.WriteFile("output.csv", []byte(outputBuffer), 0644)
 }
