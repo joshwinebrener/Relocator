@@ -10,23 +10,35 @@ func mergeSort(items []ranked) []ranked {
 		return items
 	}
 
-	first := items
-	second := items
+	var first []ranked
+	var second []ranked
 
 	var wg sync.WaitGroup
-	wg.Add(2)
+	wg.Add(1)
 
 	go func() {
 		defer wg.Done()
 		first = mergeSort(items[:len(items)/2])
 	}()
 
-	go func() {
-		defer wg.Done()
-		second = mergeSort(items[len(items)/2:])
-	}()
+	// Here I allow the concurrency of go call the second mergesort call.
+	// This way the number of goroutines triggered becomes linear instead of being exponential.
+	// https://teivah.medium.com/parallel-merge-sort-in-go-fe14c1bc006
+	second = mergeSort(items[len(items)/2:])
 
 	wg.Wait()
+
+	return merge(first, second)
+}
+
+// Because sometimes you want to go slow.
+func mergeSortSerial(items []ranked) []ranked {
+	if len(items) < 2 {
+		return items
+	}
+
+	first := mergeSortSerial(items[:len(items)/2])
+	second := mergeSortSerial(items[len(items)/2:])
 
 	return merge(first, second)
 }
