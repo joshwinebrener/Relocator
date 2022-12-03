@@ -220,16 +220,51 @@ func main() {
 		}
 	}
 
+	// Get the min and max countyData values
+	var min countyData_t
+	var max countyData_t
+	for _, data := range countyData {
+		min = data
+		max = data
+		break
+	}
+	for _, data := range countyData {
+		if data.housingPrice < min.housingPrice {
+			min.housingPrice = data.housingPrice
+		}
+		if data.housingPrice > max.housingPrice {
+			max.housingPrice = data.housingPrice
+		}
+		if data.violentCrime < min.violentCrime {
+			min.violentCrime = data.violentCrime
+		}
+		if data.violentCrime > max.violentCrime {
+			max.violentCrime = data.violentCrime
+		}
+	}
+
+	diff := countyData_t{
+		max.housingPrice - min.housingPrice,
+		max.violentCrime - min.violentCrime,
+	}
+	// Normalize county data
+	for k, v := range countyData {
+		countyData[k] = countyData_t{
+			housingPrice: (v.housingPrice - min.housingPrice) / diff.housingPrice,
+			violentCrime: (v.violentCrime - min.violentCrime) / diff.violentCrime,
+		}
+	}
+
 	ranked := rank(countyData, conf)
+	fmt.Println(ranked)
 	sorted := mergeSort(ranked)
-	fmt.Println(sorted)
+	// fmt.Println(sorted)
 
 	outputBuffer = ""
-	for county, data := range countyData {
-		outputBuffer += fmt.Sprintf("%s,%.1f,%d\n", county, data.housingPrice, data.violentCrime)
+	for _, ranked := range sorted {
+		outputBuffer += fmt.Sprintf("%s,%f\n", ranked.county, ranked.rank)
 	}
-	os.WriteFile("outputFiltered.csv", []byte(outputBuffer), 0644)
-
+	os.WriteFile("output.csv", []byte(outputBuffer), 0644)
 }
 
 func Capitalize(s string) string {
