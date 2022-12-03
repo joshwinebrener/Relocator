@@ -53,3 +53,25 @@ func rank(countyData map[string]countyData_t, config Config) []ranked {
 
 	return rankings
 }
+
+func rank_serial(countyData map[string]countyData_t, config Config) []ranked {
+	rankings := make([]ranked, len(countyData))
+
+	keys := make([]string, len(countyData))
+	i := 0
+	for k := range countyData {
+		keys[i] = k
+		i++
+	}
+
+	for i, key := range keys {
+		rankings[i] = ranked{
+			key,
+			countyData[key].housingPrice*float64(config.Weights.MedianHousingPrice) +
+				float64(countyData[key].violentCrime)*float64(config.Weights.YearlyViolentCrimeIncidentsPerCapita) +
+				countyData[key].population*config.Weights.Population,
+		}
+	}
+
+	return rankings
+}
